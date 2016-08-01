@@ -1,8 +1,5 @@
 """
 parse_address
-
-Jan 2013
-stdavis@utah.gov
 """
 
 import os
@@ -77,6 +74,7 @@ def checkWord(word, d):
     # if nothing is found
     return False
 
+
 def checkList(word, list):
     if word in list:
         return word
@@ -102,18 +100,17 @@ def parseWord(word, state, add):
         pDir = checkWord(word, dirs)
         if houseNumSuffix is False and pDir is False:
             appendStreetWord(word)
-            return searchStates['streetName']
-
-        elif not houseNumSuffix is False:
+            return searchStates['suffixDirOrType']
+        elif houseNumSuffix is not False:
             add.houseNumberSuffix = houseNumSuffix
             return searchStates['houseNumberSuffixOrPrefixDirection']
-        elif not pDir is False:
+        elif pDir is not False:
             add.prefixDirection = pDir
             return searchStates['streetName']
 
     elif state == searchStates['streetName']:
         sType = checkWord(word, sTypes)
-        if not sType is False and add.isLastWord(word):
+        if sType is not False and add.isLastWord(word):
             appendStreetWord(add.getPreviousWord(word))
             add.prefixDirection = None
             add.suffixType = sType
@@ -127,7 +124,7 @@ def parseWord(word, state, add):
         if sType is False and sDir is False:
             appendStreetWord(word)
             return searchStates['suffixDirOrType']
-        elif not sType is False:
+        elif sType is not False:
             add.suffixType = sType
             return searchStates['end']
         else:
@@ -136,11 +133,11 @@ def parseWord(word, state, add):
 
     elif state == searchStates['end']:
         sType = checkWord(word, sTypes)
-        if not sType is False:
+        if sType is not False:
             appendStreetWord(add.getPreviousWord(word))
             add.suffixType = sType
         sDir = checkWord(word, dirs)
-        if not sDir is False:
+        if sDir is not False:
             appendStreetWord(add.getPreviousWord(word))
             add.suffixDirection = sDir
         return searchStates['end']
@@ -172,5 +169,3 @@ def parse(address):
     return nAdd
 
 sTypes = __getSuffixTypes()
-
-add = parse('123 S way')

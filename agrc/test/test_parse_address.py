@@ -1,10 +1,6 @@
 import unittest
-import os
-import sys
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../..')
-
-from agrc import parse_address
+from .. import parse_address
 
 add = '123 1/2 S Main Street'
 dic = {
@@ -83,6 +79,8 @@ class ParseAddressTests(unittest.TestCase):
         self.assertEqual(result.suffixType, 'ST')
 
     def test_noPreDir(self):
+        from nose.tools import set_trace
+        set_trace()
         result = parse_address.parse('1901 Sidewinder Dr')
 
         self.assertEqual(result.houseNumber, '1901')
